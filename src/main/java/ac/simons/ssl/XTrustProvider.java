@@ -37,7 +37,10 @@ import java.security.Provider;
 import java.security.Security;
 import java.security.cert.X509Certificate;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.ManagerFactoryParameters;
+import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactorySpi;
 import javax.net.ssl.X509TrustManager;
@@ -63,7 +66,15 @@ public final class XTrustProvider extends Provider {
 	public static void install() { 
 		if(Security.getProvider(NAME) == null) { 
 			Security.insertProviderAt(new XTrustProvider(), 2); 
-			Security.setProperty("ssl.TrustManagerFactory.algorithm", TrustManagerFactoryImpl.getAlgorithm()); 
+			Security.setProperty("ssl.TrustManagerFactory.algorithm", TrustManagerFactoryImpl.getAlgorithm());			
+			// Create all-trusting host name verifier
+			HostnameVerifier allHostsValid = new HostnameVerifier() {
+				public boolean verify(String hostname, SSLSession session) {
+					return true;
+				}
+			};
+			// Install the all-trusting host verifier
+			HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);			
 		} 
 	} 
 
@@ -83,6 +94,6 @@ public final class XTrustProvider extends Provider {
 				public void checkClientTrusted(X509Certificate[] certs, String authType) { } 
 				public void checkServerTrusted(X509Certificate[] certs, String authType) { } 
 			}}; 
-		} 
+		}				
 	} 
 } 

@@ -45,6 +45,9 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactorySpi;
 import javax.net.ssl.X509TrustManager;
 
+/**
+ * Found here: <a href="http://devcentral.f5.com/weblogs/joe/archive/2005/07/06/1345.aspx">SSL Trust Provider for Java</a>
+ */
 public final class XTrustProvider extends Provider { 	
 	private static final long serialVersionUID = -8153877778027640376L;
 	private final static String NAME = "XTrustJSSE"; 

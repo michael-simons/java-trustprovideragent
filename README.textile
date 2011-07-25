@@ -1,0 +1,14 @@
+h1. SSL trust provider for development and tests
+
+This is a java.security.Provider that trusts all hosts and accepts all certificates. It is not meant to be used in production. 
+
+Most part of the code is based on this "post":http://devcentral.f5.com/weblogs/joe/archive/2005/07/06/1345.aspx on f5.com with 2 additions:
+
+# I added a custom HostnameVerifier, to accept certificates with wrong hostnames
+# I wrapped everything with an agent
+
+I didn't want to modify my source codes or fiddle with security configuration files.
+
+To use this agent use download the code, use maven to compile and run your program with the addition vm option "-javaagent:full/path/to/java-trustprovideragent-0.0.1-SNAPSHOT.jar"
+
+That's it.
